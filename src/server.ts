@@ -1,0 +1,14 @@
+import { app } from './app.js';
+import { config } from './config/env.js';
+import { logger } from './lib/logger.js';
+import './queues/workEntry.worker.js';
+
+const PORT = config.PORT;
+
+app.listen(PORT, () => {
+  logger.info({
+    event: 'server:started',
+    port: PORT,
+    environment: config.NODE_ENV,
+  });
+});

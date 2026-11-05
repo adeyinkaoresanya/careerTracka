@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "WorkEntry" ALTER COLUMN "tools" SET DEFAULT ARRAY[]::VARCHAR(255)[];
