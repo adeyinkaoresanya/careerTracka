@@ -5,7 +5,7 @@ import helmet from 'helmet';
 import { config } from './config/env';
 import { requestLogger } from './middleware/requestLogger';
 
-import {healthRoutes, authRoutes, workEntryRoutes, analysisRoutes} from './routes/index';
+import {healthRoutes, authRoutes, workEntryRoutes, analysisRoutes, achievementRoutes} from './routes/index';
 import './events/auth.events';
 import './events/workEntry.events';
 
@@ -101,6 +101,7 @@ app.use(healthRoutes);
 app.use('/api/v1/auth', authRoutes); //add authLimiter here
 app.use('/api/v1/work', workEntryRoutes);
 app.use('/api/v1/work', analysisRoutes);
+app.use('/api/v1/achievements', achievementRoutes);
 
  
 // 404 handler for unknown routes

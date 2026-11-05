@@ -1,3 +1,6 @@
+// 
+
+
 import { DEFAULT_LLM_MODEL } from '../infrastructure/llm/config/models';
 import { entryAnalysisSchema } from '../validators/entryAnalysis.validator';
 import { SYSTEM_PROMPT } from '../infrastructure/llm/prompts/systemPrompt';
@@ -13,8 +16,9 @@ interface AnalyzeWorkEntryInput {
 
 export const aiService = {
   async analyzeWorkEntry(input: AnalyzeWorkEntryInput) {
-    const systemPrompt = SYSTEM_PROMPT;
     const userPrompt = `
+      ${OUTPUT_PROMPT}
+
       Job Role: ${input.jobRole}
 
       Work Description:
@@ -22,13 +26,11 @@ export const aiService = {
 
       Tools Used:
       ${input.tools.join(', ')}
-
-      `
-    const outputPrompt = OUTPUT_PROMPT;
+    `;
 
     const response = await llmService.generate({
       providerModel: input.providerModel ?? DEFAULT_LLM_MODEL,
-      systemPrompt,
+      systemPrompt: SYSTEM_PROMPT,
       userPrompt,
       temperature: 0.2,
       maxTokens: 1500,
@@ -42,9 +44,11 @@ export const aiService = {
       parsedPayload = JSON.parse(rawContent);
     } catch {
       const jsonMatch = rawContent.match(/\{[\s\S]*\}/);
+
       if (!jsonMatch) {
         throw new Error('LLM returned invalid JSON for work-entry analysis');
       }
+
       parsedPayload = JSON.parse(jsonMatch[0]);
     }
 
@@ -59,4 +63,3 @@ export const aiService = {
     };
   },
 };
-

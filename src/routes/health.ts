@@ -5,7 +5,33 @@ import { cacheRedis } from '../lib/cache';
 
 const router = Router();
 
-// Liveness: is the process running?
+/**
+ * @swagger
+ * /health/live:
+ *   get:
+ *     summary: Check service liveness
+ *     tags: [Health]
+ *     responses:
+ *       200:
+ *         description: Service is running
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: ok
+ *                 timestamp:
+ *                   type: string
+ *                   format: date-time
+ *                 uptime:
+ *                   type: number
+ *                   example: 123.456
+ *                 environment:
+ *                   type: string
+ *                   example: development
+ */
 router.get('/health/live', (req, res) => {
   res.json({
     status: 'ok',
@@ -15,7 +41,30 @@ router.get('/health/live', (req, res) => {
   });
 });
 
-// Readiness: can the process handle requests?
+/**
+ * @swagger
+ * /health/ready:
+ *   get:
+ *     summary: Check service readiness
+ *     tags: [Health]
+ *     responses:
+ *       200:
+ *         description: Service dependencies are healthy
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: ok
+ *                 checks:
+ *                   type: object
+ *                   additionalProperties:
+ *                     type: object
+ *       503:
+ *         description: One or more dependencies are unhealthy
+ */
 router.get('/health/ready', async (req, res) => {
   const checks: Record<string, any> = {};
 

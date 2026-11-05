@@ -13,6 +13,32 @@ export const analysisRepository = {
     });
   },
 
+  async listSessionsForWorkEntry(workEntryId: string, userId: string) {
+    return prisma.analysisSession.findMany({
+      where: {
+        workEntryId,
+        workEntry: {
+          userId,
+          deletedAt: null,
+        },
+        deletedAt: null,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      select: {
+        id: true,
+        workEntryId: true,
+        status: true,
+        analysisResult: true,
+        model: true,
+        errorMessage: true,
+        createdAt: true,
+        completedAt: true,
+      },
+    });
+  },
+
   async createSession(workEntryId: string) {
     return prisma.analysisSession.create({
       data: {

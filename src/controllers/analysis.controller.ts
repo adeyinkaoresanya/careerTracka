@@ -1,6 +1,24 @@
 import type { Request, Response, NextFunction } from 'express';
 import { analysisService } from '../services/analysis.service';   
 
+export async function listAnalyses(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const params = (res.locals.validatedParams ?? req.params) as { id: string };
+    const analyses = await analysisService.listAnalysesForEntry(
+      params.id,
+      req.user!.id
+    );
+
+    res.json({ success: true, data: analyses });
+  } catch (error) {
+    next(error);
+  }
+}
+
 export async function analyseEntry(
   req: Request,
   res: Response,
@@ -10,7 +28,6 @@ export async function analyseEntry(
      const params = (res.locals.validatedParams ?? req.params) as {
       id: string;
     };
-    // still work on this
     const result = await analysisService.analyseEntry(
       params.id,
       req.user!.id

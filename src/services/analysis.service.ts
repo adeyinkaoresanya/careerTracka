@@ -3,6 +3,18 @@ import { NotFoundError } from '../lib/errors';
 import { analysisRepository } from '../repositories/analysis.repository';
 
 export const analysisService = {
+  async listAnalysesForEntry(entryId: string, userId: string) {
+    const entry = await analysisRepository.findWorkEntry(entryId, userId);
+
+    if (!entry) {
+      throw new NotFoundError('Work entry not found');
+    }
+
+    const sessions = await analysisRepository.listSessionsForWorkEntry(entry.id, userId);
+
+    return sessions;
+  },
+
   async analyseEntry(entryId: string, userId: string) {
     const entry = await analysisRepository.findWorkEntry(entryId, userId);
 
