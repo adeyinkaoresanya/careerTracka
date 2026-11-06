@@ -11,7 +11,6 @@ interface AnalyzeWorkEntryInput {
   jobRole: string;
   jobContent: string;
   tools: string[];
-  providerModel?: string;
 }
 
 export const aiService = {
@@ -29,10 +28,10 @@ export const aiService = {
     `;
 
     const response = await llmService.generate({
-      providerModel: input.providerModel ?? DEFAULT_LLM_MODEL,
+      providerModel: DEFAULT_LLM_MODEL,
       systemPrompt: SYSTEM_PROMPT,
       userPrompt,
-      temperature: 0.3,
+      temperature: 0.2,
       maxTokens: 1500,
       format: 'json',
     });
@@ -60,6 +59,7 @@ export const aiService = {
       provider: response.provider,
       model: response.model,
       usage: response.usage,
+      costUsd: response.costUsd ?? 0,
     };
   },
 };

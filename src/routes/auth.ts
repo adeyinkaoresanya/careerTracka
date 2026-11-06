@@ -18,8 +18,14 @@ const router = Router();
  *         application/json:
  *           schema:
  *             type: object
- *             required: [email, password]
+ *             required: [firstName, lastName, email, password]
  *             properties:
+ *               firstName:
+ *                 type: string
+ *                 example: John
+ *               lastName:
+ *                 type: string
+ *                 example: Doe
  *               email:
  *                 type: string
  *                 format: email
@@ -45,6 +51,12 @@ const router = Router();
  *                     id:
  *                       type: string
  *                       example: clx123abc456
+ *                     firstName:
+ *                       type: string
+ *                       example: John
+ *                     lastName:
+ *                       type: string
+ *                       example: Doe
  *                     email:
  *                       type: string
  *                       example: user@example.com

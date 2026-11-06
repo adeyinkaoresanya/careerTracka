@@ -1,4 +1,3 @@
-// src/config/swagger.ts
 import swaggerJsdoc from 'swagger-jsdoc';
 
 const options: swaggerJsdoc.Options = {
@@ -22,6 +21,13 @@ const options: swaggerJsdoc.Options = {
       },
     },
     security: [{ bearerAuth: [] }],
+    tags: [
+      { name: 'Health', description: 'API health checks' },
+      { name: 'Authentication', description: 'User authentication' },
+      { name: 'Work Entries', description: 'Manage weekly work entries' },
+      { name: 'Analysis', description: 'AI-powered work analysis' },
+      { name: 'Achievements', description: 'Manage career achievements' },
+    ],
   },
   apis: ['./src/routes/*.ts'],
 };

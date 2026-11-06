@@ -39,7 +39,7 @@ router.use(authenticate);
  *         name: sortBy
  *         schema:
  *           type: string
- *           enum: [createdAt, updatedAt, status]
+ *           enum: [createdAt, updatedAt, status, jobRole]
  *       - in: query
  *         name: sortOrder
  *         schema:

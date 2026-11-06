@@ -7,6 +7,7 @@ import { requestLogger } from './middleware/requestLogger';
 
 import {healthRoutes, authRoutes, workEntryRoutes, analysisRoutes, achievementRoutes} from './routes/index';
 import './events/auth.events';
+import './events/analysis.events';
 import './events/workEntry.events';
 
 
@@ -39,7 +40,8 @@ app.use(helmet({
 
 
 const allowedOrigins = [
-  config.FRONTEND_URL || 'http://localhost:3001',
+  // config.FRONTEND_URL || 'http://localhost:3000',
+  'http://localhost:3000'
 ];
 
 // Security headers

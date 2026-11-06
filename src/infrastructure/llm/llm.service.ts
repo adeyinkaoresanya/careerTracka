@@ -14,14 +14,27 @@ export const llmService = {
 
     const provider = providerRegistry[modelConfig.provider];
 
-    return provider.generate({
+    const response = await provider.generate({
       model: modelConfig.model,
       systemPrompt: payload.systemPrompt,
       userPrompt: payload.userPrompt,
       ...(payload.temperature !== undefined && { temperature: payload.temperature }),
-  ...(payload.maxTokens !== undefined && { maxTokens: payload.maxTokens }),
+      ...(payload.maxTokens !== undefined && { maxTokens: payload.maxTokens }),
       ...(payload.format !== undefined && { format: payload.format }),
     });
+
+    const pricing = modelConfig.pricing;
+    const inputTokens = response.usage?.inputTokens ?? 0;
+    const outputTokens = response.usage?.outputTokens ?? 0;
+    const costUsd = pricing
+      ? (inputTokens * pricing.inputPerMillionTokens) / 1_000_000 +
+        (outputTokens * pricing.outputPerMillionTokens) / 1_000_000
+      : 0;
+
+    return {
+      ...response,
+      costUsd,
+    };
   },
 };
 

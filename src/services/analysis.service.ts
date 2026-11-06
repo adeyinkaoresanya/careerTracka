@@ -1,5 +1,7 @@
 import { aiService } from '../lib/ai';
+import { appEvents } from '../lib/events';
 import { NotFoundError } from '../lib/errors';
+import { ANALYSIS_EVENTS } from '../events/analysis.events';
 import { analysisRepository } from '../repositories/analysis.repository';
 
 export const analysisService = {
@@ -36,7 +38,7 @@ export const analysisService = {
         workEntryId: entry.id,
         analysisSessionId: session.id,
         statement: analysis.statement,
-        skills: [],
+        skills: analysis.skills,
       });
 
       const sessionPayload = {
@@ -48,6 +50,7 @@ export const analysisService = {
         cvStatement: analysis.cvStatement,
         provider: analysis.provider,
         usage: analysis.usage,
+        costUsd: analysis.costUsd ?? 0,
       };
 
       const completedSession = await analysisRepository.completeSession(
@@ -55,6 +58,25 @@ export const analysisService = {
         sessionPayload,
         analysis.model
       );
+
+      const tokens = analysis.usage?.totalTokens ?? 0;
+      const costUsd = analysis.costUsd ?? 0;
+
+      appEvents.emit(ANALYSIS_EVENTS.COMPLETED, {
+        userId,
+        workEntryId: entry.id,
+        analysisSessionId: session.id,
+        provider: analysis.provider,
+        model: analysis.model,
+        inputTokens: analysis.usage?.inputTokens ?? 0,
+        outputTokens: analysis.usage?.outputTokens ?? 0,
+        tokens,
+        costUsd,
+        metadata: {
+          summary: analysis.summary,
+          workEntryId: entry.id,
+        },
+      });
 
       return {
         session: completedSession,

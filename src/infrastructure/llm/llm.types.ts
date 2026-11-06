@@ -22,6 +22,7 @@ export interface LLMResponse {
   content: string;
   provider: ProviderName;
   model: string;
+  costUsd?: number;
   usage?: {
     inputTokens: number;
     outputTokens: number;

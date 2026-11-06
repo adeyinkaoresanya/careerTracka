@@ -113,7 +113,6 @@ DATABASE_URL=postgresql://postgres:postgres@localhost:5432/careertracka
 JWT_ACCESS_SECRET=your-access-secret
 JWT_REFRESH_SECRET=your-refresh-secret
 
-AI_PROVIDER=ollama
 OLLAMA_BASE_URL=http://localhost:11434
 OLLAMA_MODEL=llama3.2:3b
 
