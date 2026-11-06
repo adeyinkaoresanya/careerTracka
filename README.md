@@ -1,63 +1,63 @@
-# CareerTracka
+# **CareerTracka**
 
 CareerTracka helps professionals capture their work experience and turn it into clear, evidence-based career achievements.
 
-Users record their weekly tasks, responsibilities and contributions in their own words. CareerTracka uses AI to analyse these entries, identify demonstrated skills and impact, and generate professional, CV-ready achievement statements.
+Users record their weekly tasks, responsibilities, and contributions in their own words. CareerTracka then uses AI to analyse these entries, identify demonstrated skills and impact, and generate professional, CV-ready achievement statements.
 
 The goal is simple: help people build a reliable record of what they have accomplished without having to remember or reconstruct their work history when updating their CV or pursuing career opportunities.
 
-## Core Features
+## **Core Features**
 
-- **Authentication:** User registration, login, JWT authentication and permission-based access control.
-- **Work Entries:** Create, view, filter and manage weekly work records.
-- **Impact Context:** Optional guided prompts to capture outcomes, scale, improvements and measurable impact.
-- **AI Analysis:** Analyse work entries and generate structured, evidence-based achievement statements.
-- **Achievement Portfolio:** Review, edit, approve and archive generated achievements.
-- **Generation History:** Retain previous AI-generated versions for comparison and regeneration.
+- **Authentication:** User registration, login, JWT authentication, and permission-based access control.  
+- **Work Entries:** Create, view, and manage weekly work records.   
+- **AI Analysis:** Analyse work entries and generate structured, evidence-based achievement statements.  
+- **Achievement Portfolio:** View, edit, approve, archive or delete generated achievements.   
 - **API Documentation:** Interactive Swagger documentation.
 
-## How It Works
+## **How It Works**
 
-1. User creates a work entry using free-form text.
-2. User optionally provides additional information about the impact of their work.
-3. User submits the entry for AI analysis.
-4. The AI analyses the entry using the Project, Action, Result (PAR) framework.
-5. CareerTracka generates CV-ready achievement statements and identifies demonstrated skills and impact.
-6. User reviews, edits, approves or regenerates the output.
+1. The user creates a work entry using free-form text.  
+2. The user optionally provides additional information about the impact of their work.  
+3. The user submits the entry for AI analysis.  
+4. The AI analyses the entry using the Project, Action, Result (PAR) framework.  
+5. CareerTracka generates CV-ready achievement statements and identifies demonstrated skills and impact.  
+6. The user reviews, edits, approves, or regenerates the output.  
 7. Approved achievements are retained in the user's portfolio.
 
-**Core principle:** AI improves how work is communicated; it must never invent achievements, metrics or responsibilities.
+**Core principle:** AI improves how work is communicated; it does not invent achievements, metrics, or responsibilities.
 
-## Technology Stack
+## **Technology Stack**
 
-- Node.js
-- TypeScript
-- Express.js
-- PostgreSQL
-- Prisma ORM
-- Redis
-- BullMQ
-- JWT
-- Zod
-- Swagger
-- OpenAI / Ollama
+| Technology | Purpose |
+| :---- | :---- |
+| Node.js | Runtime environment |
+| TypeScript | Application development |
+| Express.js | Backend framework |
+| PostgreSQL | Relational database |
+| Prisma ORM | Database access and migrations |
+| Redis | Caching and background job infrastructure |
+| BullMQ | Background job processing |
+| JWT | Authentication |
+| Zod | Request validation |
+| Swagger | API documentation |
+| OpenAI / Ollama | AI integration |
 
-## Architecture
+## **Architecture**
 
-The application follows a layered architecture:
+CareerTracka follows a layered architecture that separates HTTP handling, business logic, data access, and external integrations.
 
-- **Routes:** API endpoint definitions.
-- **Middleware:** Authentication, authorization, validation and security.
-- **Controllers:** HTTP request and response handling.
-- **Services:** Business logic and application workflows.
-- **Repositories:** Database operations.
+- **Routes:** API endpoint definitions.  
+- **Middleware:** Authentication, authorization, validation, and security.  
+- **Controllers:** HTTP request and response handling.  
+- **Services:** Business logic and application workflows.  
+- **Repositories:** Database operations.  
 - **Infrastructure:** External integrations, including AI providers and background processing.
 
-## Repository Structure
+## **Repository Structure**
 
-```text
-.
+```
 ├── src/
+│   ├── server.ts
 │   ├── app.ts
 │   ├── config/
 │   ├── controllers/
@@ -78,36 +78,37 @@ The application follows a layered architecture:
 └── README.md
 ```
 
-## Prerequisites
+## **Prerequisites**
 
-- Node.js 20+
-- npm
-- PostgreSQL
-- Redis
+- Node.js 20+  
+- npm  
+- PostgreSQL  
+- Redis  
 - OpenAI API key or a locally running Ollama instance
 
-## Local Setup
+## **Local Setup**
 
-### 1. Install dependencies
+### **1\. Install dependencies**
 
-```bash
+```sh
 npm install
 ```
 
-### 2. Configure environment variables
+### **2\. Configure environment variables**
 
-```bash
+Create your environment file:
+
+```sh
 cp .env.example .env
 ```
 
-Configure your environment:
+Configure the required variables:
 
-```env
+```
 NODE_ENV=development
 PORT=3000
 
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/careertracka
-
 
 JWT_ACCESS_SECRET=your-access-secret
 JWT_REFRESH_SECRET=your-refresh-secret
@@ -123,126 +124,130 @@ REDIS_PASSWORD=yourredispassword
 
 Use the variable names defined in `.env.example` as the source of truth.
 
-### 3. Start Redis
+### **3\. Start Redis**
 
-```bash
-docker-compose up -d
+```sh
+docker compose up -d
 ```
 
 Ensure PostgreSQL is also running and accessible.
 
-### 4. Initialize the database
+### **4\. Initialize the database**
 
-```bash
+Generate the Prisma client and apply migrations:
+
+```sh
 npx prisma generate
 npx prisma migrate dev
 ```
 
 To seed initial data:
 
-```bash
+```sh
 npm run seed
 ```
 
-### 5. Start the application
+### **5\. Start the application**
 
-```bash
+```sh
 npm run dev
 ```
 
-API base URL:
+The API will be available at:
 
-```text
+```
 http://localhost:3000
 ```
 
-## API Endpoints
+## **API Endpoints**
 
 All application endpoints are prefixed with `/api/v1`.
 
-### Authentication
+### **Authentication**
 
 | Method | Endpoint |
-|---|---|
+| :---- | :---- |
 | POST | `/auth/register` |
 | POST | `/auth/login` |
 | POST | `/auth/refresh` |
 | POST | `/auth/logout` |
 
-### Work Entries
+### **Work Entries**
 
 | Method | Endpoint |
-|---|---|
+| :---- | :---- |
 | POST | `/work/entries` |
 | GET | `/work/entries` |
 | GET | `/work/entries/:id` |
 | DELETE | `/work/entries/:id` |
 
-### AI Analysis
+### **AI Analysis**
 
 | Method | Endpoint |
-|---|---|
+| :---- | :---- |
 | GET | `/work/entries/:id/analyses` |
 | POST | `/work/entries/:id/analyse` |
 
-### Achievements
+### **Achievements**
 
 | Method | Endpoint |
-|---|---|
+| :---- | :---- |
 | GET | `/achievements` |
 | GET | `/achievements/:id` |
 | PATCH | `/achievements/:id` |
 | DELETE | `/achievements/:id` |
 
-### API Documentation
+### **API Documentation**
 
-- Swagger UI: `/api-docs`
+- Swagger UI: `/api-docs`  
 - OpenAPI JSON: `/api-docs.json`
 
-## AI Analysis Principles
+## **AI Analysis Principles**
 
-CareerTracka uses AI to improve the presentation of professional experience.
+CareerTracka uses AI to improve how professional experience is communicated.
 
 The analysis follows these principles:
 
-- Use Project, Action, Result (PAR) as a reasoning framework.
-- Prioritise accomplishments over routine responsibilities.
-- Use strong action verbs and preserve technical terminology.
-- Highlight measurable impact where evidence exists.
-- Generate qualitative achievements when metrics are unavailable.
-- Never fabricate numbers, outcomes or responsibilities.
+- Use Project, Action, Result (PAR) as a reasoning framework.  
+- Prioritise accomplishments over routine responsibilities.  
+- Use strong action verbs and preserve technical terminology.  
+- Highlight measurable impact where evidence exists.  
+- Generate qualitative achievements when metrics are unavailable.  
+- Never fabricate numbers, outcomes, or responsibilities.  
 - Preserve the user's original meaning.
 
 AI-generated content remains editable and subject to user approval.
 
-## Security
+## **Security**
 
-- JWT-based authentication.
-- Permission-based authorization.
-- User ownership checks on resources.
-- Zod request validation.
-- Request sanitization.
-- Helmet security headers.
-- CORS configuration.
-- Rate limiting.
+CareerTracka implements the following security measures:
+
+- JWT-based authentication.  
+- Permission-based authorization.  
+- User ownership checks on resources.  
+- Zod request validation.  
+- Request sanitization.  
+- Helmet security headers.  
+- CORS configuration.  
+- Rate limiting.  
 - Secure environment-based configuration.
 
-## Development Commands
+## **Development Commands**
 
-```bash
-npm run dev
-npm run build
-npm test
-npx prisma migrate dev
-npx prisma studio
-```
+| Command | Description |
+| :---- | :---- |
+| `npm run dev` | Start development server |
+| `npm run build` | Build the application |
+| `npm test` | Run tests |
+| `npx prisma migrate dev` | Run database migrations |
+| `npx prisma studio` | Open Prisma Studio |
 
-## API Design & Product Direction
+## **API Design & Product Direction**
 
-CareerTracka is designed around three principles:
+CareerTracka is built around three principles:
 
-1. **Capture:** Make it easy to record work as it happens.
-2. **Analyse:** Use AI to identify skills, contributions and evidence of impact.
+1. **Capture:** Make it easy to record work as it happens.  
+2. **Analyse:** Use AI to identify skills, contributions, and evidence of impact.  
 3. **Communicate:** Turn accumulated work experience into clear, credible professional achievements.
 
-The long-term goal is to help professionals build a continuously updated record of their career accomplishments.
+The long-term goal is to help professionals build a continuously updated record of their career accomplishments.  
