@@ -12,7 +12,7 @@
 
 
 export const OUTPUT_PROMPT = `
-Analyse the work entry and return valid JSON.
+Analyse the work entry and return valid JSON. 
 
 {
   "summary": "Concise description of the contribution",
@@ -31,4 +31,5 @@ Analyse the work entry and return valid JSON.
 - Avoid repeating the original entry verbatim.
 - Make the CV statement specific, clear and professional.
 - Return JSON only. No Markdown or commentary.
+- Do not return objects inside the actions, skills, and tools arrays.
 `;

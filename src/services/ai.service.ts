@@ -32,7 +32,7 @@ export const aiService = {
       providerModel: input.providerModel ?? DEFAULT_LLM_MODEL,
       systemPrompt: SYSTEM_PROMPT,
       userPrompt,
-      temperature: 0.2,
+      temperature: 0.3,
       maxTokens: 1500,
       format: 'json',
     });
